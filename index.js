@@ -24,6 +24,7 @@ async function run() {
 
         const Shop = client.db('BabyShop').collection('Shop')
         const Cart = client.db('BabyShop').collection('Cart')
+        const Category = client.db('BabyShop').collection('Category')
 
         app.get('/Cribs', async (req, res) => {
             const query = { category: 'Sleeping' }
@@ -54,11 +55,11 @@ async function run() {
 
         app.get('/Cart', async (req, res) => {
             const data = req.body
-            const result = await Cart.find(data).toArray()
+            const result = await Cart.find().toArray()
             res.send(result)
 
         })
-
+        
         app.patch("/cart/:id", async (req, res) => {
             const { id } = req.params;
             const { quantity } = req.body;
@@ -101,6 +102,17 @@ async function run() {
             const data=req.params.id
             const query={_id:new ObjectId(data)}
             const result=await Shop.findOne(query)
+            res.send(result)
+        })
+
+        app.get('/categories',async(req,res)=>{
+            
+        const result= await Category.find().toArray()
+        res.send(result)
+        // console.log(result)
+        })
+        app.get('/products',async(req,res)=>{
+            result= await Shop.find().toArray()
             res.send(result)
         })
 
